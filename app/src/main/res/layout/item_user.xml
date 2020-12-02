@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_avatar"
+        android:layout_width="90dp"
+        android:layout_height="90dp"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/civ_avatar"
+        android:layout_marginStart="26dp"
+        android:text="@string/name"
+        android:maxLines="1"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_toEndOf="@+id/civ_avatar"
+        android:layout_marginStart="26dp"
+        android:text="@string/user_name" />
+
+    <TextView
+        android:id="@+id/tv_followers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/civ_avatar"
+        android:layout_marginStart="26dp"
+        android:layout_toEndOf="@+id/civ_avatar"
+        android:text="@string/followers" />
+
+    <TextView
+        android:id="@+id/tv_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/civ_avatar"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_followers"
+        android:text="@string/dot"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_following"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/civ_avatar"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/tv_dot"
+        android:text="@string/following" />
+
+
+</RelativeLayout>
