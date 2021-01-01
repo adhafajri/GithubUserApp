@@ -12,28 +12,33 @@
         android:id="@+id/v_details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="2dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civ_avatar"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:layout_constraintBottom_toBottomOf="@+id/v_details"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/v_details"
-            tools:src="@drawable/user1" />
+            app:layout_constraintVertical_bias="0"
+            tools:src="@drawable/user1"
+            android:elevation="2dp"/>
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -61,10 +66,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/company"
             android:src="@drawable/ic_baseline_emoji_transportation_24"
             app:layout_constraintStart_toEndOf="@+id/civ_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/tv_username"
-            android:contentDescription="@string/company" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_username" />
 
         <TextView
             android:id="@+id/tv_company"
@@ -84,10 +89,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/location"
             android:src="@drawable/ic_baseline_location_on_24"
             app:layout_constraintStart_toEndOf="@+id/civ_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/tv_company"
-            android:contentDescription="@string/location" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_company" />
 
         <TextView
             android:id="@+id/tv_location"
@@ -106,10 +111,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:contentDescription="@string/repository"
             android:src="@drawable/ic_baseline_library_books_24"
             app:layout_constraintStart_toEndOf="@+id/civ_avatar"
-            app:layout_constraintTop_toBottomOf="@+id/tv_location"
-            android:contentDescription="@string/repository" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_location" />
 
         <TextView
             android:id="@+id/tv_repository"
@@ -122,6 +127,27 @@
             app:layout_constraintTop_toTopOf="@+id/iv_repository"
             tools:text="@string/repository" />
 
+        <Button
+            android:id="@+id/btn_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:drawableLeft="@drawable/ic_baseline_favorite_border_24"
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:text="@string/favorite"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/civ_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_repository"
+            app:layout_constraintVertical_bias="1"
+            android:elevation="2dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
@@ -131,25 +157,26 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/colorPrimary"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/tl_user"
+        app:layout_constraintBottom_toBottomOf="@+id/vp_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/v_details" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="?attr/colorAccent"
+        app:layout_constraintVertical_bias="0"
+        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_details"
-        app:layout_constraintVertical_bias="0"
         app:tabIndicatorColor="@color/colorPrimaryDark"
         app:tabSelectedTextColor="@color/colorPrimaryDark"
         app:tabTextColor="@color/colorPrimary" />
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_user"

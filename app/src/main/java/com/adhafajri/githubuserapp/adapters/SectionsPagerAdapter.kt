@@ -10,8 +10,9 @@ import com.adhafajri.githubuserapp.R
 import com.adhafajri.githubuserapp.fragments.FollowersFragment
 import com.adhafajri.githubuserapp.fragments.FollowingsFragment
 
-class SectionsPagerAdapter(private val context: Context, fragmentManager: FragmentManager,
-                           val username: String
+class SectionsPagerAdapter(
+    private val context: Context, fragmentManager: FragmentManager,
+    val username: String,
 ) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     @StringRes
@@ -21,7 +22,7 @@ class SectionsPagerAdapter(private val context: Context, fragmentManager: Fragme
         return TAB_TITLES.size
     }
 
-    override fun getItem(position: Int) : Fragment {
+    override fun getItem(position: Int): Fragment {
         var fragment: Fragment? = null
         when (position) {
             0 -> fragment = FollowersFragment.newInstance(username)

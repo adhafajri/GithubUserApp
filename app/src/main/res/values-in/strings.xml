@@ -9,8 +9,13 @@
     <string name="company">Perusahaan</string>
     <string name="repository">Repository</string>
 
+    <string name="data_not_loaded">Data tidak dapat di tampilkan! %1$s</string>
+
     <string name="repository_text">%1$s Repositori</string>
     <string name="search">Cari</string>
     <string name="search_hint">Cari…</string>
     <string name="change_language">Ubah Bahasa</string>
+    <string name="favorite">Favorit</string>
+    <string name="unfavorite">Tidak favorit</string>
+    <string name="no_favorite_users">Kamu belum memiliki User yang di favorit!</string>
 </resources>

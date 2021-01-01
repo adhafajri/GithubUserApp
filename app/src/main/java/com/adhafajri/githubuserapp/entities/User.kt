@@ -1,10 +1,10 @@
-package com.adhafajri.githubuserapp.models
+package com.adhafajri.githubuserapp.entities
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class User (
+data class User(
     var username: String,
     var name: String = "",
     var location: String = "",
@@ -12,5 +12,5 @@ data class User (
     var company: String = "",
     var followers: String = "",
     var following: String = "",
-    var avatar: String
+    var avatar: String,
 ) : Parcelable

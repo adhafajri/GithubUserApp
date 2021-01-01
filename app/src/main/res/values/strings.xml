@@ -9,9 +9,14 @@
     <string name="company">Company</string>
     <string name="repository">Repository</string>
 
+    <string name="data_not_loaded">Data not loaded! %1$s</string>
+
     <string name="repository_text">%1$s Repository</string>
     <string name="search">Search</string>
     <string name="search_hint">Search…</string>
     <string name="change_language">Change Language</string>
+    <string name="favorite">Favorite</string>
+    <string name="unfavorite">Unfavorite</string>
+    <string name="no_favorite_users">You have no favorite Users yet!</string>
 
 </resources>

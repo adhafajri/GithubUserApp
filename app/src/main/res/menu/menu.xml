@@ -14,4 +14,10 @@
         android:title="@string/change_language"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="@string/favorite"
+        app:showAsAction="always"/>
+
 </menu>

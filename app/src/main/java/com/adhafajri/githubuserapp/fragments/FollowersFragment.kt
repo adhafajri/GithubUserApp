@@ -11,12 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adhafajri.githubuserapp.R
 import com.adhafajri.githubuserapp.activities.DetailActivity
 import com.adhafajri.githubuserapp.adapters.ListUserAdapter
-import com.adhafajri.githubuserapp.helpers.ConnectionHelper
-import com.adhafajri.githubuserapp.models.User
+import com.adhafajri.githubuserapp.databinding.FragmentFollowersBinding
+import com.adhafajri.githubuserapp.helpers.APIHelper
+import com.adhafajri.githubuserapp.entities.User
+import com.adhafajri.githubuserapp.helpers.UserHelper
 import com.adhafajri.githubuserapp.utils.Constants
-import kotlinx.android.synthetic.main.fragment_followers.*
 
 class FollowersFragment : Fragment() {
+    private lateinit var binding: FragmentFollowersBinding
+
+    private lateinit var adapter: ListUserAdapter
 
     private var isRunning: Boolean = true
 
@@ -29,6 +33,12 @@ class FollowersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentFollowersBinding.bind(view)
+
+        binding.rvFollowers.setHasFixedSize(true)
+        binding.rvFollowers.layoutManager = LinearLayoutManager(context)
+        adapter = ListUserAdapter(activity!!)
+        binding.rvFollowers.adapter = adapter
 
         var username: String? = null
 
@@ -40,12 +50,12 @@ class FollowersFragment : Fragment() {
     }
 
     private fun getuserFollowersData(username: String?) {
-        pb_followers.visibility = View.VISIBLE
+        binding.pbFollowers.visibility = View.VISIBLE
 
-        val connectionHelper = ConnectionHelper()
+        val connectionHelper = APIHelper()
         connectionHelper.processJSON("${Constants.URL_USER}$username/followers",
             Constants.URL_USERS,
-            object : ConnectionHelper.MyCallback {
+            object : APIHelper.MyCallback {
                 override fun onCallback(
                     listUsers: ArrayList<User>?,
                     user: User?,
@@ -54,10 +64,10 @@ class FollowersFragment : Fragment() {
                 ) {
                     if (isRunning) {
                         if (isSuccessful) {
-                            pb_followers.visibility = AdapterView.INVISIBLE
+                            binding.pbFollowers.visibility = AdapterView.INVISIBLE
                             loadUserFollowersData(listUsers!!)
                         } else {
-                            pb_followers.visibility = View.INVISIBLE
+                            binding.pbFollowers.visibility = View.INVISIBLE
                         }
                     }
                 }
@@ -65,16 +75,11 @@ class FollowersFragment : Fragment() {
     }
 
     private fun loadUserFollowersData(listUsers: ArrayList<User>) {
-        rv_followers.setHasFixedSize(true)
-        rv_followers.layoutManager = LinearLayoutManager(context)
-        val listUserAdapter = ListUserAdapter(listUsers)
-        rv_followers.adapter = listUserAdapter
-        listUserAdapter.notifyDataSetChanged()
-
-        listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: User) {
+        adapter.listUsers = listUsers
+        adapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: User) {
                 val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra(Constants.USER_USERNAME, user.username)
+                intent.putExtra(Constants.USER_USERNAME, data.username)
                 startActivity(intent)
             }
         })

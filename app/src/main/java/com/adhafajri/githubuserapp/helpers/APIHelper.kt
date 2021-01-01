@@ -1,7 +1,8 @@
 package com.adhafajri.githubuserapp.helpers
 
 import android.util.Log
-import com.adhafajri.githubuserapp.models.User
+import com.adhafajri.githubuserapp.BuildConfig
+import com.adhafajri.githubuserapp.entities.User
 import com.adhafajri.githubuserapp.utils.Constants
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -9,24 +10,21 @@ import cz.msebera.android.httpclient.Header
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ConnectionHelper {
+class APIHelper {
 
-    private val TAG = ConnectionHelper::class.java.simpleName
+    private val TAG = APIHelper::class.java.simpleName
 
     fun processJSON(url: String, endpoint: String, myCallback: MyCallback) {
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "token ${Constants.TOKEN}")
+        client.addHeader("Authorization", "token ${BuildConfig.GITHUB_API_TOKEN}")
         client.addHeader("User-Agent", "request")
         client.get(url, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
                 statusCode: Int,
                 headers: Array<out Header>,
-                responseBody: ByteArray
+                responseBody: ByteArray,
             ) {
                 val result = String(responseBody)
-                Log.d(TAG, "Result: $result")
-                Log.d(TAG, "Url: $url")
-                Log.d(TAG, "Endpoint: $endpoint")
                 when (endpoint) {
                     Constants.URL_USERS -> {
                         val listUser = ArrayList<User>()
@@ -49,7 +47,7 @@ class ConnectionHelper {
                 statusCode: Int,
                 headers: Array<out Header>?,
                 responseBody: ByteArray?,
-                error: Throwable?
+                error: Throwable?,
             ) {
                 Log.e(TAG, error.toString())
                 myCallback.onCallback(isSuccessful = false, error = error)
@@ -94,7 +92,7 @@ class ConnectionHelper {
         val usersData = searchData.getJSONArray("items")
 
         val listUser = ArrayList<User>()
-        for (position in 0 until  usersData.length()) {
+        for (position in 0 until usersData.length()) {
             val userData = usersData.getJSONObject(position)
 
             val user = User(
@@ -107,7 +105,12 @@ class ConnectionHelper {
     }
 
     interface MyCallback {
-        fun onCallback(listUsers: ArrayList<User>? = null, user: User? = null, isSuccessful: Boolean, error: Throwable? = null)
+        fun onCallback(
+            listUsers: ArrayList<User>? = null,
+            user: User? = null,
+            isSuccessful: Boolean,
+            error: Throwable? = null,
+        )
     }
 
 }

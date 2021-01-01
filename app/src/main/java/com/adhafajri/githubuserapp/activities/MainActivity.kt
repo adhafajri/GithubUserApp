@@ -15,15 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adhafajri.githubuserapp.R
 import com.adhafajri.githubuserapp.R.*
 import com.adhafajri.githubuserapp.adapters.ListUserAdapter
-import com.adhafajri.githubuserapp.helpers.ConnectionHelper
-import com.adhafajri.githubuserapp.helpers.ConnectionHelper.MyCallback
-import com.adhafajri.githubuserapp.models.User
+import com.adhafajri.githubuserapp.databinding.ActivityMainBinding
+import com.adhafajri.githubuserapp.helpers.APIHelper
+import com.adhafajri.githubuserapp.helpers.APIHelper.MyCallback
+import com.adhafajri.githubuserapp.entities.User
 import com.adhafajri.githubuserapp.utils.Constants
 import com.adhafajri.githubuserapp.utils.Constants.Companion.STATE_RESULT
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
-    private val TAG = ConnectionHelper::class.java.simpleName
+    private val TAG = MainActivity::class.java.simpleName
+    private lateinit var binding: ActivityMainBinding
 
     private var query: String? = null
     private var isSearching = false
@@ -31,10 +32,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupActionBar()
 
-        if (!checkSavedInstance(savedInstanceState)) getUserData()
+        if (!checkSavedInstance(savedInstanceState)) 
+            getUserData()
     }
 
     private fun checkSavedInstance(savedInstanceState: Bundle?): Boolean {
@@ -42,10 +45,12 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (!savedInstanceState.getString(STATE_RESULT).isNullOrEmpty()) {
                 val query = savedInstanceState.getString(STATE_RESULT)
                 this.query = query!!
-
+                
                 true
-            } else false
-        } else false
+            } else 
+                false
+        } else 
+            false
     }
 
     private fun setupActionBar() {
@@ -56,24 +61,24 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun getUserData() {
-        pb_users.visibility = VISIBLE
+        binding.pbUsers.visibility = VISIBLE
 
-        val connectionHelper = ConnectionHelper()
+        val connectionHelper = APIHelper()
         connectionHelper.processJSON(Constants.URL_USERS, Constants.URL_USERS, object : MyCallback {
             override fun onCallback(
                 listUsers: ArrayList<User>?,
                 user: User?,
                 isSuccessful: Boolean,
-                error: Throwable?
+                error: Throwable?,
             ) {
                 if (isSuccessful) {
-                    pb_users.visibility = INVISIBLE
+                    binding.pbUsers.visibility = INVISIBLE
                     loadUsersData(listUsers!!)
                 } else {
-                    pb_users.visibility = INVISIBLE
+                    binding.pbUsers.visibility = INVISIBLE
                     Toast.makeText(
                         this@MainActivity,
-                        "Data not loaded! ${error.toString()}",
+                        getString(R.string.data_not_loaded, error.toString()),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -82,43 +87,45 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun getUserDataBySearch(query: String?) {
-        pb_users.visibility = VISIBLE
+        binding.pbUsers.visibility = VISIBLE
 
-        val connectionHelper = ConnectionHelper()
-        connectionHelper.processJSON("${Constants.URL_SEARCH}$query", Constants.URL_SEARCH, object : MyCallback {
-            override fun onCallback(
-                listUsers: ArrayList<User>?,
-                user: User?,
-                isSuccessful: Boolean,
-                error: Throwable?
-            ) {
-                if (isSuccessful) {
-                    pb_users.visibility = INVISIBLE
-                    loadUsersData(listUsers!!)
-                } else {
-                    pb_users.visibility = INVISIBLE
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Data not loaded! ${error.toString()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+        val connectionHelper = APIHelper()
+        connectionHelper.processJSON("${Constants.URL_SEARCH}$query",
+            Constants.URL_SEARCH,
+            object : MyCallback {
+                override fun onCallback(
+                    listUsers: ArrayList<User>?,
+                    user: User?,
+                    isSuccessful: Boolean,
+                    error: Throwable?,
+                ) {
+                    if (isSuccessful) {
+                        binding.pbUsers.visibility = INVISIBLE
+                        loadUsersData(listUsers!!)
+                    } else {
+                        binding.pbUsers.visibility = INVISIBLE
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Data not loaded! ${error.toString()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    isSearching = false
                 }
-                isSearching = false
-            }
-        })
+            })
     }
 
     private fun loadUsersData(listUsers: ArrayList<User>? = null) {
-        rv_users.setHasFixedSize(true)
-        rv_users.layoutManager = LinearLayoutManager(this)
-        val listUserAdapter = ListUserAdapter(listUsers!!)
-        rv_users.adapter = listUserAdapter
-        listUserAdapter.notifyDataSetChanged()
+        binding.rvUsers.layoutManager = LinearLayoutManager(this)
+        binding.rvUsers.setHasFixedSize(true)
+        val listUserAdapter = ListUserAdapter(this)
+        listUserAdapter.listUsers = listUsers!!
+        binding.rvUsers.adapter = listUserAdapter
 
         listUserAdapter.setOnItemClickCallback(object : ListUserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: User) {
+            override fun onItemClicked(data: User) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra(Constants.USER_USERNAME, user.username)
+                intent.putExtra(Constants.USER_USERNAME, data.username)
                 startActivity(intent)
             }
         })
@@ -144,6 +151,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == id.language) {
             val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(intent)
+        } else if (item.itemId == id.favorite) {
+            val intent = Intent(this@MainActivity, FavoriteActivity::class.java)
             startActivity(intent)
         }
 
