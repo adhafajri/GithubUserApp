@@ -1,14 +1,18 @@
 package com.adhafajri.githubuserapp.activities
 
 import android.content.ContentValues
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.adhafajri.consumerapp.networks.DatabaseContract
+import com.adhafajri.consumerapp.networks.DatabaseContract.UserColumns.Companion.CONTENT_URI
 import com.adhafajri.githubuserapp.R
 import com.adhafajri.githubuserapp.adapters.SectionsPagerAdapter
 import com.adhafajri.githubuserapp.databinding.ActivityDetailBinding
@@ -27,10 +31,11 @@ import kotlinx.coroutines.launch
 class DetailActivity : AppCompatActivity() {
     private val TAG = DetailActivity::class.java.simpleName
 
+    private lateinit var uriWithUsername: Uri
+
     private lateinit var binding: ActivityDetailBinding
     private var isRunning: Boolean = true
 
-    private lateinit var userHelper: UserHelper
     lateinit var user: User
     lateinit var username: String
     private var isFavorite: Boolean = false
@@ -41,9 +46,8 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        userHelper = UserHelper.getInstance(this)
-        userHelper.open()
         username = intent.getStringExtra(Constants.USER_USERNAME).toString()
+        uriWithUsername = Uri.parse("$CONTENT_URI/$username")
         getUserDataByUsername(username)
 
         binding.btnFavorite.setOnClickListener {
@@ -53,45 +57,37 @@ class DetailActivity : AppCompatActivity() {
                 saveDataToFavorite()
             }
         }
-
     }
 
     private fun removeDataFromFavorite() {
-        val result = userHelper.deleteByUsername(user.username)
-        if (result > 0) {
-            Log.e(TAG, "Success!")
-            isFavorite = false;
-            checkFavoriteButton()
-        } else {
-            Log.e(TAG, "Failed!")
-        }
+        contentResolver.delete(uriWithUsername, null, null)
+        Log.e(TAG, "Success!")
+        isFavorite = false
+        checkFavoriteButton()
     }
 
     private fun saveDataToFavorite() {
         val values = ContentValues()
-        values.put(DatabaseHelper.UserColumns.USERNAME, user.username)
-        values.put(DatabaseHelper.UserColumns.NAME, user.name)
-        values.put(DatabaseHelper.UserColumns.LOCATION, user.location)
-        values.put(DatabaseHelper.UserColumns.REPOSITORY, user.repository)
-        values.put(DatabaseHelper.UserColumns.COMPANY, user.company)
-        values.put(DatabaseHelper.UserColumns.FOLLOWERS, user.followers)
-        values.put(DatabaseHelper.UserColumns.FOLLOWING, user.following)
-        values.put(DatabaseHelper.UserColumns.AVATAR, user.avatar)
-        val result = userHelper.insert(values)
-        if (result > 0) {
-            Log.e(TAG, "Success!")
-            isFavorite = true;
-            checkFavoriteButton()
-        } else {
-            Log.e(TAG, "Failed!")
-        }
+        values.put(DatabaseContract.UserColumns.USERNAME, user.username)
+        values.put(DatabaseContract.UserColumns.NAME, user.name)
+        values.put(DatabaseContract.UserColumns.LOCATION, user.location)
+        values.put(DatabaseContract.UserColumns.REPOSITORY, user.repository)
+        values.put(DatabaseContract.UserColumns.COMPANY, user.company)
+        values.put(DatabaseContract.UserColumns.FOLLOWERS, user.followers)
+        values.put(DatabaseContract.UserColumns.FOLLOWING, user.following)
+        values.put(DatabaseContract.UserColumns.AVATAR, user.avatar)
+        contentResolver.insert(CONTENT_URI, values)
+        Log.e(TAG, "Success!")
+        isFavorite = true
+        checkFavoriteButton()
+
     }
 
 
     private fun getUserDataByUsername(username: String) {
         binding.pbUser.visibility = AdapterView.VISIBLE
 
-        getDataFromFavorite(username)
+        getDataFromFavorite()
 
         if (!isFavorite) {
             val connectionHelper = APIHelper()
@@ -108,13 +104,12 @@ class DetailActivity : AppCompatActivity() {
                             this@DetailActivity.user = user!!
                             loadUserData()
                             setupActionBar()
-                            binding.pbUser.visibility = AdapterView.INVISIBLE
                         } else {
-                            binding.pbUser.visibility = AdapterView.INVISIBLE
                             Toast.makeText(this@DetailActivity,
                                 getString(R.string.data_not_loaded, error.toString()),
                                 Toast.LENGTH_SHORT).show()
                         }
+                        binding.pbUser.visibility = AdapterView.INVISIBLE
                     }
                 }
             })
@@ -122,56 +117,56 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    private fun getDataFromFavorite(username: String) {
-        GlobalScope.launch(Dispatchers.Main) {
-            val deferredUser = async(Dispatchers.IO) {
-                val cursor = userHelper.getUserData(username)
-                MappingHelper.mapCursorToUser(cursor)
-            }
-            val user: User? = deferredUser.await()
-            if (user != null) {
-                this@DetailActivity.user = user
-                isFavorite = true
-                checkFavoriteButton()
-                Log.e(TAG, "Fav True!")
+    private fun getDataFromFavorite() {
+        val cursor = contentResolver.query(uriWithUsername, null, null, null, null)
+        val user: User = MappingHelper.mapCursorToUser(cursor)
 
-            } else {
-                isFavorite = false
-                checkFavoriteButton()
-            }
+        if (user.username != null) {
+            this@DetailActivity.user = user
+            isFavorite = true
+            checkFavoriteButton()
+            loadUserData()
+            setupActionBar()
+            Log.e(TAG, "Fav True!")
             binding.pbUser.visibility = View.INVISIBLE
+        } else {
+            isFavorite = false
+            checkFavoriteButton()
+            Log.e(TAG, "Fav False!")
         }
+
     }
 
     private fun loadUserData() {
         binding.tvUsername.text = user.username
 
-        if (user.name.isEmpty() || user.name == "null")
+        if (user.name!!.isEmpty() || user.name == null)
             binding.tvName.visibility = View.GONE
         else
             binding.tvName.text = user.name
 
-        if (user.avatar.isNotEmpty()) {
+        if (user.avatar!!.isNotEmpty()) {
             Glide.with(this)
                 .load(user.avatar)
+                .override(150)
                 .placeholder(R.drawable.logo)
                 .error(R.drawable.logo)
                 .into(binding.civAvatar)
         }
 
-        if (user.company.isEmpty() || user.company == "null") {
+        if (user.company!!.isEmpty() || user.company == "null") {
             binding.ivCompany.visibility = View.GONE
             binding.tvCompany.visibility = View.GONE
         } else
             binding.tvCompany.text = user.company
 
-        if (user.location.isEmpty() || user.location == "null") {
+        if (user.location!!.isEmpty() || user.location == "null") {
             binding.ivLocation.visibility = View.GONE
             binding.tvLocation.visibility = View.GONE
         } else
             binding.tvLocation.text = user.location
 
-        if (user.repository.isEmpty() || user.repository == "null") {
+        if (user.repository!!.isEmpty() || user.repository == "null") {
             binding.ivRepository.visibility = View.GONE
             binding.tvRepository.visibility = View.GONE
         } else
@@ -210,9 +205,17 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
-        userHelper.close()
         if (isRunning) isRunning = false
     }
 

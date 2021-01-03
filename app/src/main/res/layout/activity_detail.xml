@@ -128,7 +128,6 @@
             tools:text="@string/repository" />
 
         <Button
-            android:id="@+id/btn_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -151,16 +150,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
-        android:id="@+id/pb_user"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/colorPrimary"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/vp_user"
+        app:layout_constraintBottom_toBottomOf="@+id/v_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_details" />
+        app:layout_constraintTop_toTopOf="@+id/v_details" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tl_user"
@@ -179,7 +177,6 @@
 
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_user"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

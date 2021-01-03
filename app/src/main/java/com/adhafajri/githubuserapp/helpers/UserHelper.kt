@@ -6,8 +6,8 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import com.adhafajri.githubuserapp.helpers.DatabaseHelper.UserColumns.Companion.TABLE_NAME
-import com.adhafajri.githubuserapp.helpers.DatabaseHelper.UserColumns.Companion.USERNAME
+import com.adhafajri.consumerapp.networks.DatabaseContract.UserColumns.Companion.TABLE_NAME
+import com.adhafajri.consumerapp.networks.DatabaseContract.UserColumns.Companion.USERNAME
 import java.sql.SQLException
 
 class UserHelper (context: Context) {

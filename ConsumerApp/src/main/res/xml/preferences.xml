@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:defaultValue="English"
+        android:icon="@drawable/ic_baseline_g_translate_24"
+        android:key="@string/key_language"
+        android:title="@string/select_language"
+        app:iconSpaceReserved="false"
+        />
+
+</PreferenceScreen>

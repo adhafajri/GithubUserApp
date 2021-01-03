@@ -36,7 +36,7 @@ class FollowingsFragment : Fragment() {
 
         binding.rvFollowings.setHasFixedSize(true)
         binding.rvFollowings.layoutManager = LinearLayoutManager(context)
-        adapter = ListUserAdapter(activity!!)
+        adapter = ListUserAdapter(requireActivity())
         binding.rvFollowings.adapter = adapter
 
         var username: String? = null

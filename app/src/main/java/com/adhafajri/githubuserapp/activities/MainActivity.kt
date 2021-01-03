@@ -2,7 +2,6 @@ package com.adhafajri.githubuserapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
@@ -45,7 +44,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             if (!savedInstanceState.getString(STATE_RESULT).isNullOrEmpty()) {
                 val query = savedInstanceState.getString(STATE_RESULT)
                 this.query = query!!
-                
                 true
             } else 
                 false
@@ -149,8 +147,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == id.language) {
-            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+        if (item.itemId == id.settings) {
+            val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         } else if (item.itemId == id.favorite) {
             val intent = Intent(this@MainActivity, FavoriteActivity::class.java)

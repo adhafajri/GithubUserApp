@@ -68,7 +68,7 @@ class ListUserAdapter(private val activity: Activity) : RecyclerView.Adapter<Lis
                 Glide.with(itemView.context)
                     .load(user.avatar)
                     .placeholder(R.drawable.logo)
-                    .override(30)
+                    .override(60)
                     .error(R.drawable.logo)
                     .into(binding.civAvatar)
                 binding.tvUsername.text = user.username

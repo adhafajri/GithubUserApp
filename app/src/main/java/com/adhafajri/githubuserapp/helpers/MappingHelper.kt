@@ -1,6 +1,7 @@
 package com.adhafajri.githubuserapp.helpers
 
 import android.database.Cursor
+import com.adhafajri.consumerapp.networks.DatabaseContract
 import com.adhafajri.githubuserapp.entities.User
 
 object MappingHelper {
@@ -9,14 +10,14 @@ object MappingHelper {
         val usersList = ArrayList<User>()
         notesCursor?.apply {
             while (moveToNext()) {
-                val username = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.USERNAME))
-                val name = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.NAME))
-                val location = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.LOCATION))
-                val repository = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.REPOSITORY))
-                val company = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.COMPANY))
-                val followers = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.FOLLOWERS))
-                val following = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.FOLLOWING))
-                val avatar = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.AVATAR))
+                val username = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.USERNAME))
+                val name = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.NAME))
+                val location = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.LOCATION))
+                val repository = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.REPOSITORY))
+                val company = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.COMPANY))
+                val followers = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.FOLLOWERS))
+                val following = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.FOLLOWING))
+                val avatar = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.AVATAR))
 
                 usersList.add(User(username, name, location, repository, company, followers, following, avatar))
             }
@@ -24,20 +25,31 @@ object MappingHelper {
         return usersList
     }
 
-    fun mapCursorToUser(notesCursor: Cursor?): User? {
-        var user: User? = null
-        notesCursor?.apply {
-            while (moveToNext()) {
-                val username = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.USERNAME))
-                val name = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.NAME))
-                val location = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.LOCATION))
-                val repository = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.REPOSITORY))
-                val company = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.COMPANY))
-                val followers = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.FOLLOWERS))
-                val following = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.FOLLOWING))
-                val avatar = getString(getColumnIndexOrThrow(DatabaseHelper.UserColumns.AVATAR))
+    fun mapCursorToUser(usersCursor: Cursor?): User {
+        var user = User()
+        if (usersCursor != null && usersCursor.moveToFirst()) {
+            usersCursor.apply {
+                moveToFirst()
+                val username = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.USERNAME))
+                val name = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.NAME))
+                val location = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.LOCATION))
+                val repository =
+                    getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.REPOSITORY))
+                val company = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.COMPANY))
+                val followers =
+                    getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.FOLLOWERS))
+                val following =
+                    getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.FOLLOWING))
+                val avatar = getString(getColumnIndexOrThrow(DatabaseContract.UserColumns.AVATAR))
 
-                user = User(username, name, location, repository, company, followers, following, avatar)
+                user = User(username,
+                    name,
+                    location,
+                    repository,
+                    company,
+                    followers,
+                    following,
+                    avatar)
             }
         }
         return user
