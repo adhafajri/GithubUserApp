@@ -128,6 +128,7 @@
             tools:text="@string/repository" />
 
         <Button
+            android:id="@+id/btn_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -150,6 +151,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
+        android:id="@+id/pb_user"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -177,6 +179,7 @@
 
 
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_user"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

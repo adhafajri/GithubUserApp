@@ -9,8 +9,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.adhafajri.consumerapp.networks.DatabaseContract
 import com.adhafajri.consumerapp.networks.DatabaseContract.UserColumns.Companion.CONTENT_URI
 import com.adhafajri.githubuserapp.R
@@ -18,15 +16,9 @@ import com.adhafajri.githubuserapp.adapters.SectionsPagerAdapter
 import com.adhafajri.githubuserapp.databinding.ActivityDetailBinding
 import com.adhafajri.githubuserapp.helpers.APIHelper
 import com.adhafajri.githubuserapp.entities.User
-import com.adhafajri.githubuserapp.helpers.DatabaseHelper
 import com.adhafajri.githubuserapp.helpers.MappingHelper
-import com.adhafajri.githubuserapp.helpers.UserHelper
 import com.adhafajri.githubuserapp.utils.Constants
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
     private val TAG = DetailActivity::class.java.simpleName

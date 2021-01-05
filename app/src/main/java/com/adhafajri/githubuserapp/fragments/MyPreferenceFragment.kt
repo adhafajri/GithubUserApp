@@ -49,7 +49,7 @@ class MyPreferenceFragment : PreferenceFragmentCompat(),
             if (reminderValue == true) {
                 context?.let {
                     alarmReceiver.setRepeatingAlarm(
-                        it, AlarmReceiver.TITLE, "09:00", getString(R.string.alarm_message),
+                        it, "09:00", getString(R.string.alarm_message),
                     )
                 }
             } else {

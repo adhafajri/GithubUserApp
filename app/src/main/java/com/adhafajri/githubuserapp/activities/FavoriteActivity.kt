@@ -10,17 +10,13 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adhafajri.consumerapp.networks.DatabaseContract.UserColumns.Companion.CONTENT_URI
 import com.adhafajri.githubuserapp.R
 import com.adhafajri.githubuserapp.adapters.ListUserAdapter
 import com.adhafajri.githubuserapp.databinding.ActivityFavoriteBinding
-import com.adhafajri.githubuserapp.databinding.ActivityMainBinding
 import com.adhafajri.githubuserapp.entities.User
-import com.adhafajri.githubuserapp.helpers.APIHelper
 import com.adhafajri.githubuserapp.helpers.MappingHelper
-import com.adhafajri.githubuserapp.helpers.UserHelper
 import com.adhafajri.githubuserapp.utils.Constants
 import com.adhafajri.githubuserapp.utils.Constants.Companion.STATE_RESULT
 import com.google.android.material.snackbar.Snackbar

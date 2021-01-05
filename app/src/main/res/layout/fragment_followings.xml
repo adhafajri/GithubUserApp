@@ -7,6 +7,7 @@
     tools:context=".fragments.FollowingsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_followings"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ProgressBar
+        android:id="@+id/pb_followings"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
