@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name" translatable="false">ConsumerApp</string>
+
+    <string name="username" translatable="false">Username</string>
+    <string name="name" translatable="false">Name</string>
+    <string name="followers" translatable="false">Followers</string>
+    <string name="following" translatable="false">Followings</string>
+    <string name="location" translatable="false">Location</string>
+    <string name="company" translatable="false">Company</string>
+    <string name="repository" translatable="false">Repository</string>
+
+    <string name="data_not_loaded" translatable="false">Data not loaded! %1$s</string>
+
+    <string name="repository_text" translatable="false">%1$s Repository</string>
+    <string name="search" translatable="false">Search</string>
+    <string name="search_hint" translatable="false">Search…</string>
+    <string name="change_language" translatable="false">Change Language</string>
+    <string name="favorite" translatable="false">Favorite</string>
+    <string name="unfavorite" translatable="false">Unfavorite</string>
+    <string name="no_favorite_users" translatable="false">You have no favorite Users yet!</string>
+    <string name="alarm_message" translatable="false">Go find popular users on Github!</string>
+    <string name="select_language" translatable="false">Select Language</string>
+    <string name="reminder" translatable="false">Reminder at 9:00 AM</string>
+    <string name="settings">Settings</string>
+    <string name="key_language">language</string>
+    <string name="key_reminder">reminder</string>
+    <string name="reminder_removed">Reminder removed</string>
+    <string name="reminder_set">Reminder Set</string>
+
+</resources>

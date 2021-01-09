@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">ConsumerApp</string>
+
+    <string name="username">Username</string>
+    <string name="name">Nama</string>
+    <string name="followers">Pengikut</string>
+    <string name="following">Mengikuti</string>
+    <string name="location">Lokasi</string>
+    <string name="company">Perusahaan</string>
+    <string name="repository">Repository</string>
+
+    <string name="data_not_loaded">Data tidak dapat di tampilkan! %1$s</string>
+
+    <string name="repository_text">%1$s Repositori</string>
+    <string name="search">Cari</string>
+    <string name="search_hint">Cari…</string>
+    <string name="change_language">Ubah Bahasa</string>
+    <string name="favorite">Favorit</string>
+    <string name="unfavorite">Tidak favorit</string>
+    <string name="no_favorite_users">Kamu belum memiliki User yang di favorit!</string>
+    <string name="alarm_message">Ayo cari user populer di Github!</string>
+    <string name="select_language">Pilih Bahasa</string>
+    <string name="reminder">Ingatkan pada jam 9:00 pagi</string>
+    <string name="settings">Pengaturan</string>
+    <string name="key_language">bahasa</string>
+    <string name="key_reminder">pengingat</string>
+    <string name="reminder_removed">Reminder telah dihapus</string>
+    <string name="reminder_set">Reminder telah ditetapkan</string>
+</resources>
